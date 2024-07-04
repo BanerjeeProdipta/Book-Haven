@@ -1,4 +1,4 @@
-import { Book } from './types';
+import { Book } from '../types';
 
 export const books: Book[] = [
   {
@@ -13,7 +13,8 @@ export const books: Book[] = [
     price: 19.99,
     rating: 4,
     category: 'Business',
-    description: '',
+    description:
+      'A comprehensive guide on enhancing customer experience to drive business growth and customer loyalty.',
   },
   {
     id: '2',
@@ -27,7 +28,8 @@ export const books: Book[] = [
     price: 29.99,
     rating: 5,
     category: 'Technology',
-    description: '',
+    description:
+      'An in-depth exploration of programming concepts, languages, and best practices for software development.',
   },
   {
     id: '3',
@@ -41,7 +43,8 @@ export const books: Book[] = [
     price: 15.99,
     rating: 3,
     category: 'Health',
-    description: '',
+    description:
+      'A practical guide to achieving a healthier lifestyle through balanced diet, exercise, and mental well-being.',
   },
   {
     id: '4',
@@ -54,7 +57,8 @@ export const books: Book[] = [
     price: 12.34,
     rating: 5,
     category: 'Business',
-    description: '',
+    description:
+      'Strategies and insights for navigating the competitive world of business and achieving success.',
   },
   {
     id: '5',
@@ -67,7 +71,8 @@ export const books: Book[] = [
     price: 15.67,
     rating: 4,
     category: 'Business',
-    description: '',
+    description:
+      'Essential tips and techniques for improving business operations and driving growth.',
   },
   {
     id: '6',
@@ -80,7 +85,8 @@ export const books: Book[] = [
     price: 20.45,
     rating: 3,
     category: 'Technology',
-    description: '',
+    description:
+      'A comprehensive look at the latest advancements and trends in the field of technology.',
   },
   {
     id: '7',
@@ -93,7 +99,8 @@ export const books: Book[] = [
     price: 18.99,
     rating: 5,
     category: 'Technology',
-    description: '',
+    description:
+      'In-depth analysis and practical advice on leveraging technology for innovation and efficiency.',
   },
   {
     id: '8',
@@ -106,7 +113,8 @@ export const books: Book[] = [
     price: 17.89,
     rating: 2,
     category: 'Health',
-    description: '',
+    description:
+      'Guidelines and tips for maintaining good health and wellness in today’s fast-paced world.',
   },
   {
     id: '9',
@@ -119,6 +127,7 @@ export const books: Book[] = [
     price: 14.56,
     rating: 4,
     category: 'Health',
-    description: '',
+    description:
+      'A holistic approach to health, focusing on physical, mental, and emotional well-being.',
   },
 ];

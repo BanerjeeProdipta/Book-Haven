@@ -12,6 +12,7 @@ const Nav = () => {
     (acc, currentItem) => acc + currentItem.quantity,
     0
   );
+
   return (
     <nav
       className="flex items-center justify-between p-3 lg:px-4 bg-gray-50"

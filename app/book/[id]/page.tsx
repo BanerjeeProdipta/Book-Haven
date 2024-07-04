@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useRecoilState } from 'recoil';
 import { cartState } from '@/components/recoilContextProvider';
 import { toast } from 'react-toastify';
-import { books } from '@/data';
+import { books } from '@/utils/data';
 
 const BookDetails: React.FC<{ params: { id: string } }> = ({ params }) => {
   const router = useRouter();
@@ -98,11 +98,20 @@ const BookDetails: React.FC<{ params: { id: string } }> = ({ params }) => {
       {/* Right side with book details */}
       <div className="flex-1 flex flex-col justify-center p-12">
         <h1 className="text-2xl font-bold mb-4">{dummyBook.title}</h1>
-        <p className="text-gray-600 text-sm mb-2">Author: {dummyBook.author}</p>
+        <div className="flex items-center mb-4">
+          <Image
+            src={dummyBook.authorImageUrl}
+            alt={dummyBook.author}
+            width={50}
+            height={50}
+            className="rounded-full mr-2"
+          />
+          <p className="text-gray-600 text-sm">{dummyBook.author}</p>
+        </div>
         <p className="text-gray-600 text-sm mb-2">
           Publication Date: {dummyBook.date}
         </p>
-        <p className="text-gray-700 mb-4">{dummyBook.description}</p>
+        <p className="text-gray-700 my-6">{dummyBook.description}</p>
         <p className="text-xl font-bold text-gray-800">${dummyBook.price}</p>
 
         <div className="flex items-center mt-8">

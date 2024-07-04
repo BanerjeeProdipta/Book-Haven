@@ -21,16 +21,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <RecoilContextProvider>
-        <body className={inter.className}>
+      <body className={inter.className}>
+        <RecoilContextProvider>
           <Nav />
           <div className="bg-white text-gray-800 flex flex-1 flex-col">
             {children}
           </div>
           <Footer />
-        </body>
-        <ToastContainer />
-      </RecoilContextProvider>
+          <ToastContainer />
+        </RecoilContextProvider>
+      </body>
     </html>
   );
 }

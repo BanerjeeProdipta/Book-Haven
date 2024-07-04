@@ -1,7 +1,7 @@
 import React from 'react';
 import BookCard from './BookCard';
 import { Book } from '@/types';
-import { books } from '@/data';
+import { books } from '@/utils/data';
 
 const booksByCategories: Record<string, Book[]> = {};
 
