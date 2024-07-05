@@ -17,9 +17,15 @@ const Cart: React.FC = () => {
       toast.error('Quantity must be at least 1');
       return;
     }
+    const updatedCart = {
+      ...cartItems,
+      [bookId]: {
+        ...cartItems[bookId],
+        quantity: newQuantity,
+      },
+    };
+    console.log({ cartItems, updatedCart });
 
-    const updatedCart = { ...cartItems };
-    updatedCart[bookId].quantity = newQuantity;
     setCartItems(updatedCart);
   };
 

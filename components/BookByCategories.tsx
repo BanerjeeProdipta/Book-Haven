@@ -27,7 +27,7 @@ const BookByCategories: React.FC = () => {
             </button>
           </div>
 
-          <div className="flex mx-auto px-20 justify-between flex-wrap">
+          <div className="flex mx-auto lg:px-20 justify-between flex-wrap">
             {booksByCategories[category].map((book) => (
               <div key={book.id}>
                 <BookCard {...book} />

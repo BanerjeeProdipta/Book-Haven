@@ -25,7 +25,7 @@ export const renderStars = (rating: number) => {
 const BookCard: React.FC<Book> = (book: Book) => {
   return (
     <Link href={`/book/${book.id}`}>
-      <div className="relative bg-white w-80 h-60 shadow-lg rounded-lg overflow-hidden">
+      <div className="relative bg-white mb-2 w-64 lg:w-80 h-60 shadow-lg rounded-lg overflow-hidden">
         <Image
           src={book.imageUrl}
           alt={book.title}
