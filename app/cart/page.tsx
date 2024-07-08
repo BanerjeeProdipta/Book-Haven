@@ -1,15 +1,20 @@
 'use client';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { cartState } from '@/components/recoilContextProvider';
 import { toast } from 'react-toastify';
 import Image from 'next/image';
 import { FaTrash } from 'react-icons/fa';
 import { renderStars } from '@/components/BookCard';
+import { cartState } from '@/components/atoms/cartAtom';
 
 const Cart: React.FC = () => {
   // Get cart state from Recoil
   const [cartItems, setCartItems] = useRecoilState(cartState);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // Function to handle quantity change
   const handleQuantityChange = (bookId: string, newQuantity: number) => {
@@ -44,6 +49,10 @@ const Cart: React.FC = () => {
     0
   );
 
+  if (!isClient) {
+    return;
+  }
+
   return (
     <div className="container mx-auto px-4 min-h-screen py-8">
       <h1 className="text-xl font-bold mb-4">Shopping Cart</h1>
@@ -66,8 +75,8 @@ const Cart: React.FC = () => {
                   </button>
                   <input
                     type="number"
-                    className="border border-gray-300 w-16 font-semibold rounded-md px-2 py-1 text-center my-2"
-                    value={quantity}
+                    className="border border-gray-300 w-16 font-semibold rounded-md py-2 pl-3 text-center my-2"
+                    value={quantity ?? 1}
                     onChange={(e) =>
                       handleQuantityChange(bookId, parseInt(e.target.value))
                     }
@@ -95,7 +104,7 @@ const Cart: React.FC = () => {
                   <div className="flex h-16">{renderStars(details.rating)}</div>
                 </div>
                 <p className="text-lg px-8 font-semibold text-gray-600">
-                  Price: ${details.price.toFixed(2)}
+                  Price: ${details.price.toFixed(2) ?? 0}
                 </p>
                 <button
                   onClick={() => removeItem(bookId)}

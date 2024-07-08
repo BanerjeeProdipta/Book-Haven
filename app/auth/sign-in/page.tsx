@@ -1,7 +1,9 @@
 'use client';
+import { userState } from '@/components/atoms/userAtom';
 import Link from 'next/link';
 import React from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useRecoilState } from 'recoil';
 
 interface SignInFormInputs {
   email: string;
@@ -9,6 +11,9 @@ interface SignInFormInputs {
 }
 
 const SignInForm: React.FC = () => {
+  const [user, setUser] = useRecoilState(userState);
+  console.log({ user });
+
   const {
     register,
     handleSubmit,
@@ -17,6 +22,8 @@ const SignInForm: React.FC = () => {
 
   const onSubmit: SubmitHandler<SignInFormInputs> = (data) => {
     console.log(data);
+    // use recoil to store the user name in local storage after successful login
+    setUser({ username: data.email });
   };
 
   return (
