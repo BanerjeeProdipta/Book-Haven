@@ -9,6 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@aws-amplify/adapter-nextjs": "^1.2.7",
+    "amplify": "^0.0.11",
+    "aws": "^0.0.3-2",
+    "aws-amplify": "^6.0.27",
+    "axios": "^1.7.2",
     "next": "14.2.4",
     "react": "^18",
     "react-dom": "^18",

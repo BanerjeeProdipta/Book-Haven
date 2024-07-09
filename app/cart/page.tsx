@@ -8,7 +8,6 @@ import { renderStars } from '@/components/BookCard';
 import { cartState } from '@/components/atoms/cartAtom';
 
 const Cart: React.FC = () => {
-  // Get cart state from Recoil
   const [cartItems, setCartItems] = useRecoilState(cartState);
   const [isClient, setIsClient] = useState(false);
 

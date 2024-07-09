@@ -5,6 +5,9 @@ import { useRecoilState } from 'recoil';
 import { FaArrowDown, FaArrowUp, FaShoppingCart } from 'react-icons/fa';
 import { cartState } from './atoms/cartAtom';
 import { userState } from './atoms/userAtom';
+import { signOut } from 'aws-amplify/auth';
+import { toast } from 'react-toastify';
+import { getErrorMessage } from '@/lib/errorMessage';
 
 const Nav = () => {
   const [cartItems] = useRecoilState(cartState); // State for cart items
@@ -16,9 +19,14 @@ const Nav = () => {
     setIsClient(true);
   }, []);
 
-  const handleLogout = () => {
-    setUser({ username: null });
-    setIsPopoverOpen(false);
+  const handleLogout = async () => {
+    try {
+      await signOut();
+      setIsPopoverOpen(false);
+      setUser({ username: null });
+    } catch (error) {
+      toast(getErrorMessage(error));
+    }
   };
 
   const totalCount = Object.values(cartItems).reduce(
