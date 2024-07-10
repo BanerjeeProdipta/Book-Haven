@@ -6,8 +6,11 @@ import Image from 'next/image';
 import { FaTrash } from 'react-icons/fa';
 import { renderStars } from '@/components/BookCard';
 import { cartState } from '@/components/atoms/cartAtom';
+import axiosInstance from '@/services/axiosInstance';
+import { userState } from '@/components/atoms/userAtom';
 
 const Cart: React.FC = () => {
+  const [user] = useRecoilState(userState);
   const [cartItems, setCartItems] = useRecoilState(cartState);
   const [isClient, setIsClient] = useState(false);
 
@@ -47,6 +50,25 @@ const Cart: React.FC = () => {
       acc + currentItem.quantity * Number(currentItem.details.price),
     0
   );
+
+  const handleBuy = async () => {
+    try {
+      const response = await axiosInstance.post('/payment', {
+        userEmail: user.username, // Replace with user's email or fetch from auth context
+        amount: totalPrice,
+      });
+
+      console.log(response.data); // Log or process response from payment API
+
+      // Clear cart items after successful purchase
+      setCartItems({});
+
+      toast.success('Purchase successful!');
+    } catch (error) {
+      console.error('Error purchasing:', error);
+      toast.error('Failed to complete purchase');
+    }
+  };
 
   if (!isClient) {
     return;
@@ -118,6 +140,12 @@ const Cart: React.FC = () => {
       <p className="text-gray-600 mt-4 font-semibold text-xl">
         Total price: ${totalPrice.toFixed(2)}
       </p>
+      <button
+        onClick={handleBuy}
+        className="lg:ml-4 my-2 bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded"
+      >
+        Buy
+      </button>
     </div>
   );
 };
