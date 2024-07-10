@@ -6,6 +6,7 @@ import { FaEdit } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { toast } from 'react-toastify';
+import axiosInstance from '@/services/axiosInstance';
 interface CreateBookFormInputs {
   imageData: FileList;
   date: string;
@@ -100,7 +101,7 @@ const CreateBookForm: React.FC = () => {
       };
 
       // Submit book data to API
-      const response = await axios.post(
+      const response = await axiosInstance.post(
         `${process.env.NEXT_PUBLIC_API_URL}books`,
         bookData
       );
