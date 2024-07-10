@@ -1,12 +1,11 @@
 'use client';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
-import axiosInstance from '@/services/axiosInstance';
-import Image from 'next/image';
-import { FaEdit } from 'react-icons/fa';
 import axios from 'axios';
-
+import { FaEdit } from 'react-icons/fa';
+import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import { toast } from 'react-toastify';
 interface CreateBookFormInputs {
   imageData: FileList;
   date: string;
@@ -20,19 +19,18 @@ interface CreateBookFormInputs {
 }
 
 const CreateBookForm: React.FC = () => {
-  const [error, setError] = useState('');
+  const [error, setError] = useState<string>('');
   const [bookCoverPreview, setBookCoverPreview] = useState<string | null>(null);
   const [authorImagePreview, setAuthorImagePreview] = useState<string | null>(
     null
   );
   const router = useRouter();
-
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<CreateBookFormInputs>();
-
+  // Function to handle book cover file change
   const handleBookCoverChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -46,6 +44,7 @@ const CreateBookForm: React.FC = () => {
     }
   };
 
+  // Function to handle author image file change
   const handleAuthorImageChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -59,42 +58,59 @@ const CreateBookForm: React.FC = () => {
     }
   };
 
-  const onSubmit = handleSubmit(async (data) => {
+  // Function to upload file to S3
+  const uploadToS3 = async (file: File): Promise<string> => {
     try {
-      const formData = new FormData();
-
-      // Append file data if available
-      if (data.imageData[0]) {
-        formData.append('imageData', data.imageData[0]);
-      }
-
-      if (data.authorImageData[0]) {
-        formData.append('authorImageData', data.authorImageData[0]);
-      }
-
-      // Append other form fields
-      formData.append('author', data.author);
-      formData.append('title', data.title);
-      formData.append('price', String(data.price));
-      formData.append('category', data.category);
-      formData.append('rating', String(data.rating));
-      formData.append('description', data.description);
-
-      // Submit form data via Axios
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}books`,
-        data,
+      const response = await axios.post<string>(
+        'https://7wb7vlfyi7.execute-api.us-east-1.amazonaws.com/dev/books/file-upload',
+        { fileContent: file, fileName: 'test.jpg' },
         {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
         }
       );
-      console.log(response.data); // Log response data for debugging
-      // router.push('/books'); // Navigate to '/books' upon successful submission
+
+      return response.data; // Return URL of uploaded file from S3
     } catch (error) {
-      console.error('Error submitting form:', error); // Log detailed error for debugging
-      setError('Failed to add book. Please try again.'); // Display user-friendly error message
+      console.error('Error uploading file to S3:', error);
+      throw new Error('Failed to upload file to S3');
+    }
+  };
+
+  // Form submission handler
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      // Upload book cover image to S3
+      const bookCoverUrl = await uploadToS3(data.imageData[0]);
+
+      // Upload author image to S3
+      const authorImageUrl = await uploadToS3(data.authorImageData[0]);
+
+      const bookData = {
+        author: data.author,
+        authorImageUrl,
+        bookCoverUrl,
+        category: data.category,
+        date: data.date,
+        description: data.description,
+        price: data.price,
+        rating: data.rating,
+        title: data.title,
+      };
+
+      // Submit book data to API
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}books`,
+        bookData
+      );
+
+      toast('Book created successfully:', response.data);
+      // Reset form and navigate to success page
+      // router.push('/books');
+    } catch (error) {
+      console.error('Error creating book:', error);
+      setError('Failed to add book. Please try again.');
     }
   });
 
@@ -140,6 +156,7 @@ const CreateBookForm: React.FC = () => {
               )}
             </div>
           </div>
+
           {/* Author Image Upload */}
           <div className="flex flex-col space-y-2">
             <label
@@ -294,6 +311,7 @@ const CreateBookForm: React.FC = () => {
           </div>
         </div>
       </div>
+
       {/* Description */}
       <div className="flex flex-col space-y-2">
         <label
@@ -308,6 +326,7 @@ const CreateBookForm: React.FC = () => {
           className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
         ></textarea>
       </div>
+
       {/* Submit Button */}
       <button
         type="submit"

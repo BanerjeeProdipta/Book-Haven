@@ -5,7 +5,6 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useRecoilState } from 'recoil';
 import { toast } from 'react-toastify';
-import { books } from '@/utils/data';
 import { cartState } from '@/components/atoms/cartAtom';
 import axiosInstance from '@/services/axiosInstance';
 
