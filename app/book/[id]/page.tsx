@@ -4,9 +4,9 @@ import { Book } from '@/types';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useRecoilState } from 'recoil';
-import { cartState } from '@/components/recoilContextProvider';
 import { toast } from 'react-toastify';
 import { books } from '@/utils/data';
+import { cartState } from '@/components/atoms/cartAtom';
 
 const BookDetails: React.FC<{ params: { id: string } }> = ({ params }) => {
   const router = useRouter();
@@ -84,7 +84,7 @@ const BookDetails: React.FC<{ params: { id: string } }> = ({ params }) => {
   };
 
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen lg:flex">
       <div className="flex-1 hidden md:block relative">
         <Image
           src={dummyBook.imageUrl}
@@ -112,37 +112,42 @@ const BookDetails: React.FC<{ params: { id: string } }> = ({ params }) => {
           Publication Date: {dummyBook.date}
         </p>
         <p className="text-gray-700 my-6">{dummyBook.description}</p>
-        <p className="text-xl font-bold text-gray-800">${dummyBook.price}</p>
+        <p className="text-xl font-bold text-primary">${dummyBook.price}</p>
 
-        <div className="flex items-center mt-8">
-          <div className="flex items-center">
-            <label htmlFor={`quantity`} className="mr-2 text-xl font-semibold">
-              Quantity:
-            </label>
-            <button
-              onClick={removeFromCart}
-              className="border border-gray-300 rounded-l-md px-2 py-2 text-center"
-            >
-              -
-            </button>
-            <input
-              type="number"
-              className="border border-gray-300 px-2 py-2 w-16 text-center"
-              value={cartItems[params.id]?.quantity ?? 0}
-              onChange={() => {}}
-              min="1"
-              readOnly
-            />
-            <button
-              onClick={addToCart}
-              className="border border-gray-300 rounded-r-md px-2 py-2 text-center"
-            >
-              +
-            </button>
+        <div className="lg:flex items-center mt-8">
+          <div className="lg:flex items-center">
+            <div className="my-2">
+              <label
+                htmlFor={`quantity`}
+                className="mr-2 text-xl font-semibold"
+              >
+                Quantity:
+              </label>
+              <button
+                onClick={removeFromCart}
+                className="border border-gray-300 rounded-l-md px-2 py-2 text-center"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                className="border border-gray-300 py-2 pl-3 w-12 text-center"
+                value={cartItems[params.id]?.quantity ?? 0}
+                onChange={() => {}}
+                min="1"
+                readOnly
+              />
+              <button
+                onClick={addToCart}
+                className="border border-gray-300 rounded-r-md px-2 py-2 text-center"
+              >
+                +
+              </button>
+            </div>
           </div>
           <button
             onClick={buyNow}
-            className="ml-4 bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded"
+            className="lg:ml-4 my-2 bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded"
           >
             Buy Now
           </button>

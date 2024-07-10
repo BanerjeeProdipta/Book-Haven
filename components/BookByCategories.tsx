@@ -16,7 +16,7 @@ const categories = Object.keys(booksByCategories);
 
 const BookByCategories: React.FC = () => {
   return (
-    <div className="flex flex-wrap mx-auto p-12">
+    <div className="flex lg:flex-wrap mx-auto flex-col justify-between w-full items-center lg:p-12">
       {categories.map((category) => (
         <div key={category} className="mb-8 w-full">
           <div className="flex justify-between w-full">
@@ -27,7 +27,7 @@ const BookByCategories: React.FC = () => {
             </button>
           </div>
 
-          <div className="flex mx-auto lg:px-20 justify-between flex-wrap">
+          <div className="flex mx-auto lg:px-20  justify-center items-center lg:justify-between flex-wrap">
             {booksByCategories[category].map((book) => (
               <div key={book.id}>
                 <BookCard {...book} />

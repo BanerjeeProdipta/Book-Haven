@@ -1,7 +1,13 @@
 'use client';
+import { userState } from '@/components/atoms/userAtom';
+import { getErrorMessage } from '@/lib/errorMessage';
+import { resendSignUpCode, signIn } from 'aws-amplify/auth';
 import Link from 'next/link';
-import React from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useRecoilState } from 'recoil';
 
 interface SignInFormInputs {
   email: string;
@@ -9,14 +15,41 @@ interface SignInFormInputs {
 }
 
 const SignInForm: React.FC = () => {
+  const [user, setUser] = useRecoilState(userState);
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const URIemail = searchParams.get('email');
+  const [error, setError] = useState('');
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<SignInFormInputs>();
+  } = useForm<SignInFormInputs>({
+    defaultValues: {
+      email: URIemail ?? '',
+    },
+  });
 
-  const onSubmit: SubmitHandler<SignInFormInputs> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<SignInFormInputs> = async (data) => {
+    try {
+      const { isSignedIn, nextStep } = await signIn({
+        username: data.email,
+        password: data.password,
+      });
+      if (nextStep.signInStep === 'CONFIRM_SIGN_UP') {
+        await resendSignUpCode({
+          username: data.email,
+        });
+        router.push(
+          `/auth/confirm-signup?email=${encodeURIComponent(data.email)}`
+        );
+      }
+      if (isSignedIn) router.push('/');
+      setUser({ username: data.email });
+    } catch (error) {
+      setError(getErrorMessage(error));
+    }
   };
 
   return (
@@ -62,6 +95,8 @@ const SignInForm: React.FC = () => {
       >
         Sign In
       </button>
+      {error && <p className="text-red-400">{error}</p>}
+
       {/* Sign Up Link */}
       <p className="mt-4 text-sm text-gray-600">
         Don&apos;t have an account?{' '}

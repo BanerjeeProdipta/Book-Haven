@@ -4,8 +4,9 @@ import './globals.css';
 import Footer from '@/components/Footer';
 import Nav from '@/components/Nav';
 import RecoilContextProvider from '@/components/recoilContextProvider';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import '@/config/amplify.config';
 
 const inter = Inter({ subsets: ['latin'] });
 
