@@ -1,23 +1,33 @@
 'use client';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Book } from '@/types';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useRecoilState } from 'recoil';
 import { toast } from 'react-toastify';
-import { books } from '@/utils/data';
 import { cartState } from '@/components/atoms/cartAtom';
+import axiosInstance from '@/services/axiosInstance';
 
 const BookDetails: React.FC<{ params: { id: string } }> = ({ params }) => {
   const router = useRouter();
   const [cartItems, setCartItems] = useRecoilState(cartState);
+  const [book, setBook] = useState<Book | undefined>(undefined);
 
-  // Find the dummyBook with the matching id from the books array
-  const dummyBook: Book | undefined = books.find(
-    (book) => book.id === params.id
-  );
+  useEffect(() => {
+    const fetchBook = async () => {
+      try {
+        const response = await axiosInstance.get(`/books/${params.id}`);
+        setBook(response.data.book); // Assuming your API returns the book data
+      } catch (error) {
+        console.error('Error fetching book:', error);
+        // Handle error fetching data, e.g., redirect to an error page
+      }
+    };
 
-  if (!dummyBook) {
+    fetchBook();
+  }, [params.id]);
+
+  if (!book) {
     return <div>Book not found</div>;
   }
 
@@ -30,7 +40,7 @@ const BookDetails: React.FC<{ params: { id: string } }> = ({ params }) => {
         ...cartItems,
         [params.id]: {
           quantity: existingItem.quantity + 1,
-          details: dummyBook,
+          details: book,
         },
       });
     } else {
@@ -39,7 +49,7 @@ const BookDetails: React.FC<{ params: { id: string } }> = ({ params }) => {
         ...cartItems,
         [params.id]: {
           quantity: 1,
-          details: dummyBook,
+          details: book,
         },
       });
     }
@@ -48,15 +58,15 @@ const BookDetails: React.FC<{ params: { id: string } }> = ({ params }) => {
 
   const removeFromCart = () => {
     const updatedCart = { ...cartItems };
-    const existingItem = updatedCart[dummyBook.id];
+    const existingItem = updatedCart[book.id];
 
     if (existingItem) {
       if (existingItem.quantity === 1) {
         // If quantity is 1, remove the item from cart
-        delete updatedCart[dummyBook.id];
+        delete updatedCart[book.id];
       } else {
         // Decrease quantity by 1
-        updatedCart[dummyBook.id] = {
+        updatedCart[book.id] = {
           ...existingItem,
           quantity: existingItem.quantity - 1,
         };
@@ -68,14 +78,14 @@ const BookDetails: React.FC<{ params: { id: string } }> = ({ params }) => {
   };
 
   const buyNow = () => {
-    const existingItem = cartItems[dummyBook.id];
+    const existingItem = cartItems[book.id];
 
     if (!existingItem) {
       setCartItems({
         ...cartItems,
-        [dummyBook.id]: {
+        [book.id]: {
           quantity: 1,
-          details: dummyBook,
+          details: book,
         },
       });
     }
@@ -87,7 +97,7 @@ const BookDetails: React.FC<{ params: { id: string } }> = ({ params }) => {
     <div className="min-h-screen lg:flex">
       <div className="flex-1 hidden md:block relative">
         <Image
-          src={dummyBook.imageUrl}
+          src={book.imageUrl}
           alt="Book Image"
           layout="fill"
           objectFit="cover"
@@ -97,22 +107,22 @@ const BookDetails: React.FC<{ params: { id: string } }> = ({ params }) => {
       </div>
       {/* Right side with book details */}
       <div className="flex-1 flex flex-col justify-center p-12">
-        <h1 className="text-2xl font-bold mb-4">{dummyBook.title}</h1>
+        <h1 className="text-2xl font-bold mb-4">{book.title}</h1>
         <div className="flex items-center mb-4">
           <Image
-            src={dummyBook.authorImageUrl}
-            alt={dummyBook.author}
+            src={book.authorImageUrl}
+            alt={book.author}
             width={50}
             height={50}
             className="rounded-full mr-2"
           />
-          <p className="text-gray-600 text-sm">{dummyBook.author}</p>
+          <p className="text-gray-600 text-sm">{book.author}</p>
         </div>
         <p className="text-gray-600 text-sm mb-2">
-          Publication Date: {dummyBook.date}
+          Publication Date: {book.date}
         </p>
-        <p className="text-gray-700 my-6">{dummyBook.description}</p>
-        <p className="text-xl font-bold text-primary">${dummyBook.price}</p>
+        <p className="text-gray-700 my-6">{book.description}</p>
+        <p className="text-xl font-bold text-primary">${book.price}</p>
 
         <div className="lg:flex items-center mt-8">
           <div className="lg:flex items-center">

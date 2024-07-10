@@ -1,20 +1,40 @@
-import React from 'react';
+'use client';
+import React, { useEffect, useState } from 'react';
 import BookCard from './BookCard';
 import { Book } from '@/types';
-import { books } from '@/utils/data';
-
-const booksByCategories: Record<string, Book[]> = {};
-
-books.forEach((book) => {
-  if (!booksByCategories[book.category]) {
-    booksByCategories[book.category] = [];
-  }
-  booksByCategories[book.category].push(book);
-});
-
-const categories = Object.keys(booksByCategories);
+import axiosInstance from '@/services/axiosInstance';
 
 const BookByCategories: React.FC = () => {
+  const [booksByCategories, setBooksByCategories] = useState<
+    Record<string, Book[]>
+  >({});
+  const [categories, setCategories] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchBooks = async () => {
+      try {
+        const response = await axiosInstance.get('/books');
+        const books: Book[] = response.data.body;
+        console.log({ books });
+        const categorizedBooks: Record<string, Book[]> = {};
+
+        books.forEach((book) => {
+          if (!categorizedBooks[book.category]) {
+            categorizedBooks[book.category] = [];
+          }
+          categorizedBooks[book.category].push(book);
+        });
+
+        setBooksByCategories(categorizedBooks);
+        setCategories(Object.keys(categorizedBooks));
+      } catch (error) {
+        console.error('Error fetching books:', error);
+      }
+    };
+
+    fetchBooks();
+  }, []);
+
   return (
     <div className="flex lg:flex-wrap mx-auto flex-col justify-between w-full items-center lg:p-12">
       {categories.map((category) => (
@@ -27,7 +47,7 @@ const BookByCategories: React.FC = () => {
             </button>
           </div>
 
-          <div className="flex mx-auto lg:px-20  justify-center items-center lg:justify-between flex-wrap">
+          <div className="flex mx-auto lg:px-20 justify-center items-center lg:justify-between flex-wrap">
             {booksByCategories[category].map((book) => (
               <div key={book.id}>
                 <BookCard {...book} />

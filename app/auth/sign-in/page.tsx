@@ -45,8 +45,10 @@ const SignInForm: React.FC = () => {
           `/auth/confirm-signup?email=${encodeURIComponent(data.email)}`
         );
       }
-      if (isSignedIn) router.push('/');
-      setUser({ username: data.email });
+      if (isSignedIn) {
+        router.push('/');
+        setUser({ username: data.email });
+      }
     } catch (error) {
       setError(getErrorMessage(error));
     }
