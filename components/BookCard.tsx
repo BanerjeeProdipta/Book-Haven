@@ -26,14 +26,16 @@ const BookCard: React.FC<Book> = (book: Book) => {
   return (
     <Link href={`/book/${book.id}`}>
       <div className="relative bg-white mb-2 w-64 lg:w-80 h-60 shadow-lg rounded-lg overflow-hidden">
-        <Image
-          src={book.imageUrl}
-          alt={book.title}
-          layout="fill"
-          objectFit="cover"
-          objectPosition="center"
-          className="rounded-t-lg"
-        />
+        <div className="flex items-center">
+          <Image
+            src={book.bookCoverUrl}
+            alt={book.title}
+            layout="fill"
+            objectFit="cover"
+            objectPosition="center"
+            className="rounded-t-lg"
+          />
+        </div>
         <div className="absolute inset-0 bg-gradient-to-t from-gray-800 to-transparent opacity-60"></div>
         <div className="absolute inset-0 flex flex-col justify-end p-4">
           <div className="flex items-center justify-between font-bold text-white text-lg">

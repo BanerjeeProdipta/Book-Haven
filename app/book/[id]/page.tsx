@@ -97,7 +97,7 @@ const BookDetails: React.FC<{ params: { id: string } }> = ({ params }) => {
     <div className="min-h-screen lg:flex">
       <div className="flex-1 hidden md:block relative">
         <Image
-          src={book.imageUrl}
+          src={book.bookCoverUrl}
           alt="Book Image"
           layout="fill"
           objectFit="cover"

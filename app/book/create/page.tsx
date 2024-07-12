@@ -62,9 +62,11 @@ const CreateBookForm: React.FC = () => {
   // Function to upload file to S3
   const uploadToS3 = async (file: File): Promise<string> => {
     try {
-      const response = await axios.post<string>(
-        'https://7wb7vlfyi7.execute-api.us-east-1.amazonaws.com/dev/books/file-upload',
-        { fileContent: file, fileName: 'test.jpg' },
+      const formData = new FormData();
+      formData.append('image', file);
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}books/file-upload`,
+        formData,
         {
           headers: {
             'Content-Type': 'multipart/form-data',
@@ -82,16 +84,16 @@ const CreateBookForm: React.FC = () => {
   // Form submission handler
   const onSubmit = handleSubmit(async (data) => {
     try {
-      // Upload book cover image to S3
-      const bookCoverUrl = await uploadToS3(data.imageData[0]);
+      // const bookCoverUrl = await uploadToS3(data.imageData[0]);
 
-      // Upload author image to S3
-      const authorImageUrl = await uploadToS3(data.authorImageData[0]);
+      // const authorImageUrl = await uploadToS3(data.authorImageData[0])
+      const dummyCover = 'https://public-book-haven.s3.amazonaws.com/cook.jpg';
+      const dummyAuthor = 'https://public-book-haven.s3.amazonaws.com/user.jpg';
 
       const bookData = {
         author: data.author,
-        authorImageUrl,
-        bookCoverUrl,
+        authorImageUrl: dummyAuthor,
+        bookCoverUrl: dummyCover,
         category: data.category,
         date: data.date,
         description: data.description,
@@ -101,12 +103,9 @@ const CreateBookForm: React.FC = () => {
       };
 
       // Submit book data to API
-      const response = await axiosInstance.post(
-        `${process.env.NEXT_PUBLIC_API_URL}books`,
-        bookData
-      );
+      const response = await axiosInstance.post(`books`, bookData);
 
-      toast('Book created successfully:', response.data);
+      toast.success('Book created successfully:', response.data);
       // Reset form and navigate to success page
       // router.push('/books');
     } catch (error) {
@@ -191,7 +190,6 @@ const CreateBookForm: React.FC = () => {
             </div>
           </div>
         </div>
-
         <div className="flex flex-1 flex-col space-y-4 max-w-xl">
           {/* Title */}
           <div className="flex flex-col space-y-2">
@@ -310,7 +308,7 @@ const CreateBookForm: React.FC = () => {
               className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
             />
           </div>
-        </div>
+        </div>{' '}
       </div>
 
       {/* Description */}
