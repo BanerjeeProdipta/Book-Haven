@@ -3,7 +3,7 @@ import { Book } from '../types';
 export const books: Book[] = [
   {
     id: '1',
-    imageUrl:
+    bookCoverUrl:
       'https://images.unsplash.com/photo-1492724441997-5dc865305da7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3270&q=80',
     date: 'Feb 12, 2020',
     authorImageUrl:
@@ -18,7 +18,7 @@ export const books: Book[] = [
   },
   {
     id: '2',
-    imageUrl:
+    bookCoverUrl:
       'https://images.unsplash.com/photo-1512820790803-83ca734da794?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2100&q=80',
     date: 'Mar 10, 2021',
     authorImageUrl:
@@ -33,7 +33,7 @@ export const books: Book[] = [
   },
   {
     id: '3',
-    imageUrl:
+    bookCoverUrl:
       'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&q=80&w=400',
     date: 'Jan 5, 2019',
     authorImageUrl:
@@ -48,7 +48,7 @@ export const books: Book[] = [
   },
   {
     id: '4',
-    imageUrl:
+    bookCoverUrl:
       'https://images.unsplash.com/photo-1492724441997-5dc865305da7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3270&q=80',
     date: '2024-07-05',
     authorImageUrl: 'https://via.placeholder.com/150?text=Author1',
@@ -62,7 +62,7 @@ export const books: Book[] = [
   },
   {
     id: '5',
-    imageUrl:
+    bookCoverUrl:
       'https://images.unsplash.com/photo-1492724441997-5dc865305da7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3270&q=80',
     date: '2024-07-05',
     authorImageUrl: 'https://via.placeholder.com/150?text=Author2',
@@ -76,7 +76,7 @@ export const books: Book[] = [
   },
   {
     id: '6',
-    imageUrl:
+    bookCoverUrl:
       'https://images.unsplash.com/photo-1512820790803-83ca734da794?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2100&q=80',
     date: '2024-07-05',
     authorImageUrl: 'https://via.placeholder.com/150?text=Author3',
@@ -90,7 +90,7 @@ export const books: Book[] = [
   },
   {
     id: '7',
-    imageUrl:
+    bookCoverUrl:
       'https://images.unsplash.com/photo-1512820790803-83ca734da794?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2100&q=80',
     date: '2024-07-05',
     authorImageUrl: 'https://via.placeholder.com/150?text=Author4',
@@ -104,7 +104,7 @@ export const books: Book[] = [
   },
   {
     id: '8',
-    imageUrl:
+    bookCoverUrl:
       'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&q=80&w=400',
     date: '2024-07-05',
     authorImageUrl: 'https://via.placeholder.com/150?text=Author5',
@@ -118,7 +118,7 @@ export const books: Book[] = [
   },
   {
     id: '9',
-    imageUrl:
+    bookCoverUrl:
       'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&q=80&w=400',
     date: '2024-07-05',
     authorImageUrl: 'https://via.placeholder.com/150?text=Author6',
