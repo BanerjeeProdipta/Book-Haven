@@ -48,7 +48,7 @@ const BookByCategories: React.FC = () => {
           </div>
 
           <div className="flex mx-auto lg:px-20 justify-center items-center lg:justify-between flex-wrap">
-            {booksByCategories[category].map((book) => (
+            {booksByCategories[category].slice(0, 3).map((book) => (
               <div key={book.id}>
                 <BookCard {...book} />
               </div>

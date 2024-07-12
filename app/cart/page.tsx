@@ -112,7 +112,7 @@ const Cart: React.FC = () => {
                 </div>
                 <div className="w-32 h-48 relative mb-4 md:mb-0 md:mr-4">
                   <Image
-                    src={details.imageUrl}
+                    src={details.bookCoverUrl}
                     alt={details.title}
                     layout="fill"
                     objectFit="cover"
@@ -142,7 +142,7 @@ const Cart: React.FC = () => {
       </p>
       <button
         onClick={handleBuy}
-        className="lg:ml-4 my-2 bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded"
+        className="my-2 bg-green-500 mt-6 hover:bg-green-600 text-white py-2 px-12 rounded"
       >
         Buy
       </button>
